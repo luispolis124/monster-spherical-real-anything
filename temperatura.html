@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monster Spherical Real Anything - Temperatura</title>
+</head>
+<body>
+
+  <h1>Temperatura</h1>
+
+  <p id="temperatura-info">Carregando temperatura...</p>
+
+  <script>
+    // Obtém ou inicializa a temperatura do armazenamento local
+    let temperatura = JSON.parse(localStorage.getItem('temperatura')) || obterTemperatura();
+
+    // Obtém o estado atual do ATS do armazenamento local
+    const atsState = JSON.parse(localStorage.getItem('atsState')) || {
+      year: 1,
+      months: 1,
+      days: 1,
+      hours: 0,
+      minutes: 0,
+      seconds: 0
+    };
+
+    // Função para obter uma temperatura fictícia
+    function obterTemperatura() {
+      // Lógica fictícia para determinar a temperatura com base no estado do ATS
+      return Math.floor(Math.random() * 30) + 20; // Números aleatórios como exemplo
+    }
+
+    // Exibe a temperatura sincronizada com o ATS
+    function exibirTemperatura() {
+      document.getElementById('temperatura-info').innerHTML = `Temperatura em Solaminus, Lunovia (1ª Geração): ${temperatura}°C`;
+    }
+
+    // Salva a temperatura no armazenamento local
+    function salvarTemperatura() {
+      localStorage.setItem('temperatura', JSON.stringify(temperatura));
+    }
+
+    // Atualiza e exibe a temperatura ao carregar a página
+    exibirTemperatura();
+
+    // Atualiza e salva a temperatura a cada minuto
+    setInterval(() => {
+      temperatura = obterTemperatura();
+      exibirTemperatura();
+      salvarTemperatura();
+    }, 60000); // 60000 milissegundos = 1 minuto
+  </script>
+
+</body>
+</html>
