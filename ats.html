@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monster Spherical ATS</title>
+</head>
+<body>
+
+  <h1>Monster Spherical ATS</h1>
+
+  <p id="ats-time"></p>
+
+  <script>
+    const initialTime = JSON.parse(localStorage.getItem('atsState')) || {
+      year: 1,
+      months: 1,
+      days: 1,
+      hours: 0,
+      minutes: 0,
+      seconds: 0
+    };
+
+    const updateInterval = 1000; // 1 second
+
+    function updateATS() {
+      initialTime.seconds++;
+      if (initialTime.seconds === 60) {
+        initialTime.seconds = 0;
+        initialTime.minutes++;
+      }
+      if (initialTime.minutes === 60) {
+        initialTime.minutes = 0;
+        initialTime.hours++;
+      }
+      if (initialTime.hours === 24) {
+        initialTime.hours = 0;
+        initialTime.days++;
+
+        // Adicione comemorações fictícias
+        if (initialTime.days === 1 && initialTime.months === 1) {
+          console.log("Ano Bonito! Feliz Ano Novo em Monster Spherical!");
+        }
+      }
+      if (initialTime.days === 466 && initialTime.hours === 23 && initialTime.minutes === 54 && initialTime.seconds === 62) {
+        // Reset at 466 days, 23:54:62
+        initialTime.days = 1;
+        initialTime.months++;
+        initialTime.hours = 0;
+        initialTime.minutes = 0;
+        initialTime.seconds = 0;
+      }
+      if (initialTime.months === 19) {
+        // Stop counting after 19 months
+        clearInterval(intervalId);
+      }
+
+      // Save state to local storage
+      localStorage.setItem('atsState', JSON.stringify(initialTime));
+
+      // Format values with leading zeros
+      const formattedTime = `${initialTime.year} Years ${initialTime.months} Months ${initialTime.days} Days ${('0' + initialTime.hours).slice(-2)}:${('0' + initialTime.minutes).slice(-2)}:${('0' + initialTime.seconds).slice(-2)}`;
+
+      // Update HTML with new time values
+      document.getElementById('ats-time').innerHTML = formattedTime;
+    }
+
+    // Initial display
+    updateATS();
+
+    // Update every second
+    const intervalId = setInterval(updateATS, updateInterval);
+  </script>
+
+</body>
+</html>
