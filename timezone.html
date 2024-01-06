@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monster Spherical Real Anything - Timezone</title>
+</head>
+<body>
+
+  <h1>Timezone</h1>
+
+  <p id="timezone-info">Carregando horário...</p>
+
+  <script>
+    // Obtém o estado atual do ATS do armazenamento local
+    const atsState = JSON.parse(localStorage.getItem('atsState')) || {
+      year: 1,
+      months: 1,
+      days: 1,
+      hours: 0,
+      minutes: 0,
+      seconds: 0
+    };
+
+    // Função para obter o horário fictício com base no ATS
+    function obterHorario() {
+      // Lógica fictícia para determinar o horário com base no estado do ATS
+      const horaAtual = atsState.hours;
+      const minutosAtual = atsState.minutes;
+
+      // Ajuste para a Timezone fictícia (por exemplo, +3 horas)
+      const horaTimezone = (horaAtual + 3) % 24;
+
+      return {
+        hora: horaTimezone,
+        minutos: minutosAtual
+      };
+    }
+
+    // Exibe o horário sincronizado com o ATS
+    function exibirHorario() {
+      const horarioAtual = obterHorario();
+      document.getElementById('timezone-info').innerHTML = `Horário em Solaminus, Lunovia (1ª Geração): ${horarioAtual.hora}:${('0' + horarioAtual.minutos).slice(-2)}`;
+    }
+
+    // Atualiza e exibe o horário ao carregar a página
+    exibirHorario();
+
+    // Atualiza e exibe o horário a cada minuto
+    setInterval(() => {
+      exibirHorario();
+    }, 60000); // 60000 milissegundos = 1 minuto
+  </script>
+
+</body>
+</html>
